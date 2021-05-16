@@ -1,0 +1,78 @@
+/*  ====================
+    Color Theme settings 
+    ====================  */
+
+:root {
+    --gradient: linear-gradient(90deg, #38438B, #974C94, #DC5D87, #FF856F, #FFBD5E, #F9F871);
+    --pageBackground: #1F1F26;
+    --headerBackground: #131317;
+    --textColor: #ffffff;
+    --buttonBorder: #ffffff;
+    --buttonBackground: #131317;
+}
+
+/*  ==================
+    HTML, BODY Styling
+    ==================  */
+
+html, body {
+    font-family: Arial;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: var(--pageBackground);
+    user-select: none;
+}
+
+/*  ======
+    Layout
+    ======  */
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 5.7% auto 17%;
+    grid-template-areas: "header" "graph" "buttons";
+}
+
+header {
+    grid-area: header;
+    justify-content: center;
+    align-items: flex-end;
+    background-color: var(--headerBackground);
+}
+
+.graph-container {
+    grid-area: graph;
+}
+
+.buttons-container {
+    grid-area: buttons;
+    align-items: center;
+    justify-content: center;
+}
+
+/*  =======================
+    Header Elements Styling
+    =======================  */
+
+h1 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 2.4vh;
+    color: var(--textColor);
+}
+
+.gradient-bar {
+    width: 100%;
+    height: 9.5%;
+    background: var(--gradient);
+}
