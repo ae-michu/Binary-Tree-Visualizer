@@ -23,6 +23,8 @@ html, body {
     overflow: hidden;
     background: var(--pageBackground);
     user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
 }
 
 /*  ======
