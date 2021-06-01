@@ -78,3 +78,18 @@ h1 {
     height: 9.5%;
     background: var(--gradient);
 }
+
+/*  =================
+    Media Adjustments
+    =================  */
+
+@media screen and (max-height: 650px) {
+    html, body {
+        overflow: visible;
+        height: 650px;
+    }
+
+    h1 {
+        font-size: 100%;
+    }
+}
