@@ -6,3 +6,26 @@ document.querySelectorAll('input').forEach((element) => {
         }
     });
 });
+
+//add "click" function to all buttons
+document.querySelectorAll(".button > div").forEach((button) => {
+    button.addEventListener("click", () => {
+        switch (button.id) {
+            case "add-button":
+                console.log("add button pressed");
+                break;
+            case "del-button":
+                console.log("del button pressed");
+                break;
+            case "find-button":
+                console.log("find button pressed");
+                break;
+            case "balance-button":
+                console.log("balance button pressed");
+                break;
+            case "state-button":
+                console.log("state button pressed");
+                break;
+        }
+    });
+});
