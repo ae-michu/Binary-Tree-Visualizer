@@ -1,17 +1,3 @@
-//set default tree values
-var treeData = [
-    {"name": "1", "parent": ""},
-    {"name": "2", "parent": "1"},
-    {"name": "3", "parent": "1"},
-    {"name": "4", "parent": "2"},
-    {"name": "5", "parent": "2"},
-    {"name": "6", "parent": "3"},
-    {"name": "7", "parent": "3"},
-    {"name": "8", "parent": "4"},
-    {"name": "9", "parent": "4"},
-    {"name": "10", "parent": "6"}
-];
-
 //convert node-parent array to hierarchy
 function convertToHierarchy(treeArray){
     const hierarchy = d3.stratify()
@@ -81,9 +67,9 @@ function createTree(treeData) {
 
 function updateTree(treeData){
     //get container dimensions
-    const container = document.getElementById("graph-container");
-    const containerHeight = container.getBoundingClientRect().height;  
-    const containerWidth = container.getBoundingClientRect().width;
+    const container = document.getElementsByClassName("graph-container");
+    const containerHeight = container[0].getBoundingClientRect().height;  
+    const containerWidth = container[0].getBoundingClientRect().width;
 
     //convert given data to hierarchy
     const data = convertToHierarchy(treeData);
@@ -123,7 +109,8 @@ function updateTree(treeData){
 
     names.transition()
         .attr("x", function(d){ return d.x; })
-        .attr("y", function(d){ return (d.y - 3); });
+        .attr("y", function(d){ return (d.y - 3); })
+        .text(function(d){ return d.data.name; });
 
     //create new nodes, links and names
     nodes.enter().append("circle")
@@ -141,13 +128,3 @@ function updateTree(treeData){
         .attr("text-anchor", "middle")
         .text(function(d){ return d.data.name; });
 }
-
-//create a tree
-createTree(treeData);
-
-//resize the tree when window dimensions change
-window.addEventListener("resize", function(){
-    const treeSvg = document.querySelector('#graph>svg');
-    treeSvg.remove();
-    createTree(treeData);
-});
