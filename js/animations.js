@@ -19,3 +19,12 @@ document.querySelectorAll('.button').forEach((element) => {
         });
     }
 });
+
+//clear input and disable animation
+function clearInput(buttonId) {
+    const button = document.getElementById(buttonId);
+    const input = button.parentNode.children[0];
+
+    input.value = "";
+    button.style.pointerEvents = "none";
+}

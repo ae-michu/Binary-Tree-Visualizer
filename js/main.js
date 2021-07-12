@@ -114,6 +114,7 @@ document.querySelectorAll(".button > div").forEach((button) => {
         switch (button.id) {
             case "add-button":
                 addToTree(tree);
+                clearInput(button.id);
                 break;
             case "del-button":
                 console.log("del button pressed");
