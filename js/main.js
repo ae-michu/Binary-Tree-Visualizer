@@ -48,6 +48,136 @@ class BinaryTree {
             }
         }
     }
+
+    //function for deleting nodes
+    delete(value) {
+        let current = this.root;
+        let currentParent;
+
+        //find the node
+        while (current.value !== value) {
+            if (current === null) {
+                return undefined;
+            }
+
+            if (value > current.value) {
+                currentParent = current;
+                current = current.right;
+            }
+
+            if (current === null) {
+                return undefined;
+            }
+
+            if (value < current.value) {
+                currentParent = current;
+                current = current.left;
+            }
+        }
+
+        //check for children
+        if (current.right === null && current.left === null) {
+            //node is a leaf
+            if (current.value === this.root.value) {
+                this.root = null;
+            }
+
+            if (currentParent !== undefined) {
+                if (current.value > currentParent.value) {
+                    currentParent.right = null;
+                } else {
+                    currentParent.left = null;
+                }
+            }
+            current = null;
+
+        } else if ((current.right !== null && current.left === null) || (current.right === null && current.left !== null)) {
+            //node has one child
+            let child;
+            if (current.right !== null) {
+                child = current.right;
+                current.right = null;
+            } else {
+                child = current.left;
+                current.left = null;
+            }
+
+            if (current.value === this.root.value) {
+                this.root = child;
+                child.parent = "";
+            }
+            
+            if (currentParent !== undefined) {
+                if (currentParent.right.value === current.value) {
+                    currentParent.right = child;
+                } else {
+                    currentParent.left = child;
+                }
+                child.parent = currentParent.value;
+            }
+
+        } else {
+            //node has both children
+            let successorParent;
+            let target = current;
+            current = current.right;
+
+            while (current.left !== null) {
+                successorParent = current;
+                current = current.left;
+            }
+
+            if (current.right === null && current.left === null) {
+                //leaf
+                if (successorParent !== undefined) {
+                    if (successorParent.left !== null && successorParent.left.value == current.value) {
+                        successorParent.left = null;
+                    } else {
+                        successorParent.right = null;
+                    }
+                }
+
+                target.value = current.value;
+
+                if (target.left !== null) {
+                    if (target.left.value === current.value) {
+                        target.left = null;
+                    } else {
+                        target.left.parent = current.value;
+                    }
+                }
+
+                if (target.right !== null) {
+                    if (target.right.value === current.value) {
+                        target.right = null;
+                    } else {
+                        target.right.parent = current.value;
+                    }
+                }
+
+            } else {
+                //one child (right)
+                let rightChild = current.right;
+
+                if (successorParent !== undefined) {
+                    successorParent.left = rightChild;
+                    rightChild.parent = successorParent.value;
+                } else {
+                    target.right = rightChild;
+                }
+
+                target.value = current.value;
+
+                if (target.right !== null) {
+                    target.right.parent = current.value;
+                }
+
+                if (target.left !== null) {
+                    target.left.parent = current.value;
+                }
+            }
+        }
+    }
 }
 
 //convert tree structure to array for visualization
@@ -83,8 +213,12 @@ createTree(convertToArray(tree));
 //resize the tree when window dimensions change
 window.addEventListener("resize", function(){
     const treeSvg = document.querySelector('#graph>svg');
-    treeSvg.remove();
-    createTree(convertToArray(tree));
+    if (treeSvg !== null) {
+        treeSvg.remove();
+    }
+    if (convertToArray(tree).length !== 0) {
+        createTree(convertToArray(tree));
+    }
 });
 
 //check and allow only for numerical input inside buttons
@@ -108,6 +242,19 @@ function addToTree(treeData) {
     }
 }
 
+//delete value from tree
+function deleteFromTree(treeData) {
+    input = document.querySelector('#del-value');
+    if (convertToArray(treeData).length === 1) {
+        const treeSvg = document.querySelector('#graph>svg');
+        treeSvg.remove();
+        const deleteNode = tree.delete(Number(input.value));
+    } else {
+        const deleteNode = tree.delete(Number(input.value));
+        updateTree(convertToArray(tree));
+    }
+}
+
 //add "click" function to all buttons
 document.querySelectorAll(".button > div").forEach((button) => {
     button.addEventListener("click", () => {
@@ -117,7 +264,8 @@ document.querySelectorAll(".button > div").forEach((button) => {
                 clearInput(button.id);
                 break;
             case "del-button":
-                console.log("del button pressed");
+                deleteFromTree(tree);
+                clearInput(button.id);
                 break;
             case "find-button":
                 console.log("find button pressed");
