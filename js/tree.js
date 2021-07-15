@@ -37,6 +37,13 @@ function createTree(treeData) {
     //create nodes and links data
     const elements = treeStruct(data);
 
+    //draw links
+    const links = svg.append("g").selectAll("path")
+        .data(elements.links());
+
+    links.enter().append("path")
+        .attr("d", function(d){ return linkPath(d); });
+
     //draw nodes
     const nodes = svg.append("g").selectAll("circle")
         .data(elements.descendants());
@@ -46,13 +53,6 @@ function createTree(treeData) {
         .attr("cy", function(d){ return d.y; })
         .attr("r", 20)
         .attr("data", function(d){ return d.data.name; });
-
-    //draw links
-    const links = svg.append("g").selectAll("path")
-        .data(elements.links());
-
-    links.enter().append("path")
-        .attr("d", function(d){ return linkPath(d); });
 
     //draw names
     const names = svg.append("g").selectAll("text")
@@ -86,28 +86,28 @@ function updateTree(treeData){
     const elements = treeStruct(data);
 
     //select nodes, links and names
-    const nodes = svg.selectAll("circle")
-        .data(elements.descendants());
-    
     const links = svg.selectAll("path")
         .data(elements.links());
+
+    const nodes = svg.selectAll("circle")
+        .data(elements.descendants());
 
     const names = svg.selectAll("text")
         .data(elements.descendants());
     
     //delete unwanted nodes, links and names
-    nodes.exit().remove();
     links.exit().remove();
+    nodes.exit().remove();
     names.exit().remove();
 
     //move nodes, links and names to new positions
+    links.transition()
+        .attr("d", function(d){ return linkPath(d); });
+
     nodes.transition()
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; })
         .attr("data", function(d){ return d.data.name; });
-
-    links.transition()
-        .attr("d", function(d){ return linkPath(d); });
 
     names.transition()
         .attr("x", function(d){ return d.x; })
@@ -115,14 +115,14 @@ function updateTree(treeData){
         .text(function(d){ return d.data.name; });
 
     //create new nodes, links and names
+    links.enter().append("path")
+        .attr("d", function(d){ return linkPath(d); });
+
     nodes.enter().append("circle")
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; })
         .attr("r", 20)
         .attr("data", function(d){ return d.data.name; });
-
-    links.enter().append("path")
-        .attr("d", function(d){ return linkPath(d); });
 
     names.enter().append("text")
         .attr("x", function(d){ return d.x; })
