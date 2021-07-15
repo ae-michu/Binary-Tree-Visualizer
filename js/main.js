@@ -178,6 +178,24 @@ class BinaryTree {
             }
         }
     }
+
+    async find(value) {
+        let current = this.root;
+        await blinkNode(current.value, 500, "#38438B");
+
+        while (current.value !== value) {
+            if (current === null) {
+                return undefined;
+            }else if (value < current.value) {
+                current = current.left;
+            }else if (value > current.value) {
+                current = current.right;
+            }
+            await blinkNode(current.value, 500, "#38438B");
+        }
+
+        blinkNode(current.value, 2000, "#4C975C");
+    }
 }
 
 //convert tree structure to array for visualization
@@ -235,10 +253,10 @@ function addToTree(treeData) {
     input = document.querySelector('#add-value');
     if (convertToArray(treeData).length === 0){
         const newNode = treeData.add(Number(input.value));
-        createTree(convertToArray(tree));
+        createTree(convertToArray(treeData));
     } else {
         const newNode = treeData.add(Number(input.value));
-        updateTree(convertToArray(tree));
+        updateTree(convertToArray(treeData));
     }
 }
 
@@ -248,11 +266,17 @@ function deleteFromTree(treeData) {
     if (convertToArray(treeData).length === 1) {
         const treeSvg = document.querySelector('#graph>svg');
         treeSvg.remove();
-        const deleteNode = tree.delete(Number(input.value));
+        const deleteNode = treeData.delete(Number(input.value));
     } else {
-        const deleteNode = tree.delete(Number(input.value));
-        updateTree(convertToArray(tree));
+        const deleteNode = treeData.delete(Number(input.value));
+        updateTree(convertToArray(treeData));
     }
+}
+
+//find value in the tree
+function findInTree(treeData) {
+    input = document.querySelector('#find-value');
+    const find = treeData.find(Number(input.value));
 }
 
 //add "click" function to all buttons
@@ -268,7 +292,8 @@ document.querySelectorAll(".button > div").forEach((button) => {
                 clearInput(button.id);
                 break;
             case "find-button":
-                console.log("find button pressed");
+                findInTree(tree);
+                clearInput(button.id);
                 break;
             case "balance-button":
                 console.log("balance button pressed");

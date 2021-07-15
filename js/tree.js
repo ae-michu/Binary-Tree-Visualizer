@@ -44,7 +44,8 @@ function createTree(treeData) {
     nodes.enter().append("circle")
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; })
-        .attr("r", 20);
+        .attr("r", 20)
+        .attr("data", function(d){ return d.data.name; });
 
     //draw links
     const links = svg.append("g").selectAll("path")
@@ -102,7 +103,8 @@ function updateTree(treeData){
     //move nodes, links and names to new positions
     nodes.transition()
         .attr("cx", function(d){ return d.x; })
-        .attr("cy", function(d){ return d.y; });
+        .attr("cy", function(d){ return d.y; })
+        .attr("data", function(d){ return d.data.name; });
 
     links.transition()
         .attr("d", function(d){ return linkPath(d); });
@@ -117,6 +119,7 @@ function updateTree(treeData){
         .attr("cx", function(d){ return d.x; })
         .attr("cy", function(d){ return d.y; })
         .attr("r", 20)
+        .attr("data", function(d){ return d.data.name; });
 
     links.enter().append("path")
         .attr("d", function(d){ return linkPath(d); });
