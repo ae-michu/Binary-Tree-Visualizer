@@ -41,8 +41,8 @@ html, body {
     height: 100%;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 5.7% auto 17%;
-    grid-template-areas: "header" "graph" "buttons";
+    grid-template-rows: 5.7% auto 3% 17%;
+    grid-template-areas: "header" "graph" "messages" "buttons";
 }
 
 header {
@@ -54,6 +54,12 @@ header {
 
 .graph-container {
     grid-area: graph;
+}
+
+.message-container {
+    grid-area: messages;
+    align-items: center;
+    justify-content: center;
 }
 
 .buttons-container {
@@ -79,6 +85,32 @@ h1 {
     background: var(--gradient);
 }
 
+/*  ==================================
+    Message Container Elements Styling
+    ==================================  */
+
+.message {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    font-size: 1.8vh;
+    font-weight: bold;
+    color: white;
+    animation: messagePopUp 1.5s ease-in-out forwards;
+}
+
+@keyframes messagePopUp {
+    0%, 100% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    25%, 75% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /*  =================
     Media Adjustments
     =================  */
@@ -90,6 +122,10 @@ h1 {
     }
 
     h1 {
+        font-size: 100%;
+    }
+
+    .message {
         font-size: 100%;
     }
 }

@@ -58,3 +58,24 @@ async function blinkNode(value, duration, color) {
     await delay(duration);
     circle.style.stroke = null;
 }
+
+/*  =================
+    message animation
+    =================   */
+
+// show popup message in message container
+async function popUpMessage(content, color) {
+    // get containter
+    const container = document.getElementsByClassName("message-container")[0];
+
+    // create message element and add it to DOM
+    let message = document.createElement("p");
+    message.className = "message";
+    message.style.color = color;
+    message.innerHTML = content;
+    container.appendChild(message);
+
+    // wait for animation to end and delete element
+    await delay(1800);
+    message.remove();
+}
