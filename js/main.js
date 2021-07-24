@@ -21,6 +21,7 @@ class BinaryTree {
         if (this.root === null) {
             this.root = node;
             node.parent = "";
+            popUpMessage("node " + '"' + String(value) + '" added as root', "#4C975C");
             return this;
         }
 
@@ -28,6 +29,7 @@ class BinaryTree {
         let current = this.root;
         while (current) {
             if (value === current.value) {
+                popUpMessage("node " + '"' + String(value) + '" already exists', "#974C4C");
                 return undefined;
             }
 
@@ -35,6 +37,7 @@ class BinaryTree {
                 if (current.left === null) {
                     current.left = node;
                     node.parent = current.value;
+                    popUpMessage("node " + '"' + String(value) + '" added', "#4C975C");
                     return this;
                 }
                 current = current.left;
@@ -42,6 +45,7 @@ class BinaryTree {
                 if (current.right === null) {
                     current.right = node;
                     node.parent = current.value;
+                    popUpMessage("node " + '"' + String(value) + '" added', "#4C975C");
                     return this;
                 }
                 current = current.right;
@@ -56,22 +60,17 @@ class BinaryTree {
 
         //find the node
         while (current.value !== value) {
-            if (current === null) {
-                return undefined;
-            }
-
             if (value > current.value) {
                 currentParent = current;
                 current = current.right;
+            }else if (value < current.value) {
+                currentParent = current;
+                current = current.left;
             }
 
             if (current === null) {
+                popUpMessage("node " + '"' + String(value) + '" not found', "#974C4C");
                 return undefined;
-            }
-
-            if (value < current.value) {
-                currentParent = current;
-                current = current.left;
             }
         }
 
@@ -177,6 +176,7 @@ class BinaryTree {
                 }
             }
         }
+        popUpMessage("node " + '"' + String(value) + '" deleted', "#4C975C");
     }
 
     async find(value) {
@@ -184,17 +184,22 @@ class BinaryTree {
         await blinkNode(current.value, 500, "#38438B");
 
         while (current.value !== value) {
-            if (current === null) {
-                return undefined;
-            }else if (value < current.value) {
+            if (value < current.value) {
                 current = current.left;
             }else if (value > current.value) {
                 current = current.right;
             }
-            await blinkNode(current.value, 500, "#38438B");
+
+            if (current !== null) {
+                await blinkNode(current.value, 500, "#38438B");
+            } else {
+                popUpMessage("node " + '"' + String(value) + '" not found', "#974C4C");
+                return undefined;
+            }
         }
 
         blinkNode(current.value, 2000, "#4C975C");
+        popUpMessage("node " + '"' + String(current.value) + '" found', "#4C975C");
     }
 }
 
@@ -215,6 +220,9 @@ function convertToArray(tree) {
     traversPostorder(tree.root);
     return array;
 }
+
+//enable animations
+enableAnimations(true);
 
 //create tree data
 let tree = new BinaryTree;

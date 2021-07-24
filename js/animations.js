@@ -7,6 +7,28 @@ function delay(ms) {
 }
 
 /*  =================
+    enable animations
+    =================   */
+
+function enableAnimations(bool) {
+    if (bool === true) {
+        document.querySelectorAll('.button > div').forEach(async function(element) {
+            element.style.backgroundImage = "none";
+            await delay(2000);
+            element.style.backgroundImage = "";
+        });
+    } else {
+        let enabled = false;
+        document.querySelectorAll('.button > div').forEach((element) => {
+            if (element.style.backgroundImage === "") {
+                enabled = true;
+            }
+        });
+        return enabled;
+    }
+}
+
+/*  =================
     button animations
     =================   */
 
@@ -65,17 +87,19 @@ async function blinkNode(value, duration, color) {
 
 // show popup message in message container
 async function popUpMessage(content, color) {
-    // get containter
-    const container = document.getElementsByClassName("message-container")[0];
+    if (enableAnimations(false) === true) {
+        // get containter
+        const container = document.getElementsByClassName("message-container")[0];
 
-    // create message element and add it to DOM
-    let message = document.createElement("p");
-    message.className = "message";
-    message.style.color = color;
-    message.innerHTML = content;
-    container.appendChild(message);
+        // create message element and add it to DOM
+        let message = document.createElement("p");
+        message.className = "message";
+        message.style.color = color;
+        message.innerHTML = content;
+        container.appendChild(message);
 
-    // wait for animation to end and delete element
-    await delay(1800);
-    message.remove();
+        // wait for animation to end and delete element
+        await delay(1800);
+        message.remove();
+    }
 }
