@@ -20,11 +20,23 @@ function enableAnimations(bool) {
     } else {
         let enabled = false;
         document.querySelectorAll('.button > div').forEach((element) => {
-            if (element.style.backgroundImage === "") {
+            if (getComputedStyle(element).backgroundImage != "none") {
                 enabled = true;
             }
         });
         return enabled;
+    }
+}
+
+function disableAnimations(bool) {
+    if (bool === true) {
+        document.querySelectorAll('.button > div').forEach((element) => {
+            element.style.backgroundImage = "none";
+        });
+    } else {
+        document.querySelectorAll('.button > div').forEach((element) => {
+            element.style.backgroundImage = "";
+        });
     }
 }
 

@@ -327,6 +327,8 @@ function isBalanced(treeData) {
 
 //balance the tree
 function balanceTree(treeData) {
+    disableAnimations(true);
+
     //save tree nodes to array and delete them from tree
     let treeArrayLength = convertToArray(treeData).length;
     let treeArray = [];
@@ -360,13 +362,13 @@ function balanceTree(treeData) {
             }
         }
     }
-    enableAnimations(true);
 
     //build balanced tree
     balancedArray.forEach((element) => {
         const newNode = treeData.add(element);
     });
     createTree(convertToArray(treeData));
+    disableAnimations(false);
 }
 
 //add "click" function to all buttons
