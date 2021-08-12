@@ -179,6 +179,7 @@ class BinaryTree {
         popUpMessage("node " + '"' + String(value) + '" deleted', "#4C975C");
     }
 
+    //find given node and highlight path
     async find(value) {
         let current = this.root;
         await blinkNode(current.value, 500, "#38438B");
@@ -200,6 +201,15 @@ class BinaryTree {
 
         blinkNode(current.value, 2000, "#4C975C");
         popUpMessage("node " + '"' + String(current.value) + '" found', "#4C975C");
+    }
+
+    //return height of the tree below given node
+    checkBalance(node) {
+        if (node === null) {
+            return 0;
+        } else {
+            return Math.max(this.checkBalance(node.left), this.checkBalance(node.right)) + 1;
+        }
     }
 }
 
@@ -287,6 +297,21 @@ function findInTree(treeData) {
     const find = treeData.find(Number(input.value));
 }
 
+//check if tree is balanced
+function isBalanced(treeData) {
+    if (treeData.root !== null) {
+        let rHeight = treeData.checkBalance(treeData.root.right);
+        let lHeight = treeData.checkBalance(treeData.root.left);
+        if (Math.abs(rHeight - lHeight) <= 1) {
+            popUpMessage("balanced", "#4C975C");
+        } else {
+            popUpMessage("not balanced", "#974C4C");
+        }
+    } else {
+        popUpMessage("no tree", "#974C4C");
+    }
+}
+
 //add "click" function to all buttons
 document.querySelectorAll(".button > div").forEach((button) => {
     button.addEventListener("click", () => {
@@ -307,7 +332,7 @@ document.querySelectorAll(".button > div").forEach((button) => {
                 console.log("balance button pressed");
                 break;
             case "state-button":
-                console.log("state button pressed");
+                isBalanced(tree);
                 break;
         }
     });

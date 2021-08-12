@@ -16,11 +16,12 @@ It was written as a training to ground knowledge gained in courses about web dev
 * displaying the tree
 * adding / deleting / searching nodes
 * ~~balancing the tree~~ (to do)
-* ~~displaying current tree state~~ (to do)
+* displaying current tree state
 
 ## Usage
 To use the visualizer go to this page: [click me :arrow_forward:](https://ae-michu.github.io/Binary-Tree-Visualizer/). <br>
-To insert, delete, find nodes type the node value on the left of button's name and press the button. Only whole numbers are allowed.
+To insert, delete, find nodes type the node value on the left of button's name and press the button. Only whole numbers are allowed. <br>
+To balance the tree or display its state simply press the corresponding button. 
 
 ##
 #### Legal note
