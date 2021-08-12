@@ -238,8 +238,7 @@ enableAnimations(true);
 let tree = new BinaryTree;
 
 //add default nodes
-// const defaults = [10, 5, 15, 3, 7, 11, 20, 2, 4, 21];
-const defaults = [4, 3, 5, 2, 6, 1, 7];
+const defaults = [10, 5, 15, 3, 7, 11, 20, 2, 4, 21];
 defaults.forEach((element) => {
     const newNode = tree.add(element);
 });
@@ -301,9 +300,22 @@ function findInTree(treeData) {
 //check if tree is balanced
 function isBalanced(treeData) {
     if (treeData.root !== null) {
-        let rHeight = treeData.checkBalance(treeData.root.right);
-        let lHeight = treeData.checkBalance(treeData.root.left);
-        if (Math.abs(rHeight - lHeight) <= 1) {
+        function recurrBalance(node) {
+            if (node === null) {
+                return true;
+            }
+
+            let rHeight = treeData.checkBalance(node.right);
+            let lHeight = treeData.checkBalance(node.left);
+
+            if (Math.abs(lHeight - rHeight) <= 1 && recurrBalance(node.left) === true && recurrBalance(node.right) === true) {
+                return true;
+            }
+            return false;
+        }
+
+        let balanced = recurrBalance(treeData.root);
+        if (balanced === true) {
             popUpMessage("balanced", "#4C975C");
         } else {
             popUpMessage("not balanced", "#974C4C");
