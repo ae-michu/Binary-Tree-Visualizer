@@ -15,7 +15,7 @@ It was written as a training to ground knowledge gained in courses about web dev
 ## Features
 * displaying the tree
 * adding / deleting / searching nodes
-* ~~balancing the tree~~ (to do)
+* balancing the tree
 * displaying current tree state
 
 ## Usage

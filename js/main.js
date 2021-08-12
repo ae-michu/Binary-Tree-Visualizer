@@ -238,7 +238,8 @@ enableAnimations(true);
 let tree = new BinaryTree;
 
 //add default nodes
-const defaults = [10, 5, 15, 3, 7, 11, 20, 2, 4, 21];
+// const defaults = [10, 5, 15, 3, 7, 11, 20, 2, 4, 21];
+const defaults = [4, 3, 5, 2, 6, 1, 7];
 defaults.forEach((element) => {
     const newNode = tree.add(element);
 });
@@ -312,6 +313,50 @@ function isBalanced(treeData) {
     }
 }
 
+//balance the tree
+function balanceTree(treeData) {
+    //save tree nodes to array and delete them from tree
+    let treeArrayLength = convertToArray(treeData).length;
+    let treeArray = [];
+    for (let i = 0; i < treeArrayLength; i++) {
+        const nodeValue = convertToArray(treeData)[i].name;
+        treeArray.push(nodeValue);
+    }
+    for (let i = 0; i < treeArrayLength; i++) {
+        const deleteNode = treeData.delete(treeArray[i]);
+    }
+    const treeSvg = document.querySelector('#graph>svg');
+    treeSvg.remove();
+
+    //sort array in order
+    treeArray.sort(function (a, b) {
+        return a - b;
+    });
+
+    //balance array
+    let balancedArray = [];
+    halfArray(treeArray);
+    function halfArray(array) {
+        if (array.length > 2) {
+            const midIndex = Math.floor(array.length / 2) + 1;
+            balancedArray.push(array[midIndex - 1]);
+            halfArray(array.slice(0, midIndex - 1));
+            halfArray(array.slice(-midIndex + 1));
+        } else {
+            for (let i = 0; i < array.length; i++) {
+                balancedArray.push(array[i]);
+            }
+        }
+    }
+    enableAnimations(true);
+
+    //build balanced tree
+    balancedArray.forEach((element) => {
+        const newNode = treeData.add(element);
+    });
+    createTree(convertToArray(treeData));
+}
+
 //add "click" function to all buttons
 document.querySelectorAll(".button > div").forEach((button) => {
     button.addEventListener("click", () => {
@@ -329,7 +374,7 @@ document.querySelectorAll(".button > div").forEach((button) => {
                 clearInput(button.id);
                 break;
             case "balance-button":
-                console.log("balance button pressed");
+                balanceTree(tree);
                 break;
             case "state-button":
                 isBalanced(tree);
